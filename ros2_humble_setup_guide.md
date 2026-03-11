@@ -2,13 +2,13 @@
 
 ## 环境信息
 
-| 项目 | 值 |
-|------|-----|
-| 操作系统 | Ubuntu 22.04 |
+| 项目        | 值                           |
+| ----------- | ---------------------------- |
+| 操作系统    | Ubuntu 22.04                 |
 | Docker 镜像 | osrf/ros:humble-desktop-full |
-| ROS 版本 | ROS 2 Humble Hawksbill |
-| Python项目 | /media/wht/N/ROS/ros2_ws |
-| C++项目 | /media/wht/N/ROS/ros2_cp |
+| ROS 版本    | ROS 2 Humble Hawksbill       |
+| Python项目  | /media/wht/N/ROS/ros2_ws     |
+| C++项目     | /media/wht/N/ROS/ros2_cp     |
 
 ## 一、镜像拉取
 
@@ -30,7 +30,7 @@ xhost +local:docker
 
 ```bash
 docker run -d \
-  --name ros2-humble-ws \
+  --name ros2-humble \
   --privileged \
   -e DISPLAY=$DISPLAY \
   -e QT_X11_NO_MITSHM=1 \
@@ -185,15 +185,15 @@ cd /media/wht/N/ROS
 docker ps -a | grep ros2-humble
 
 # 启动容器
-docker start ros2-humble-ws   # Python项目
+docker start ros2-humble   # Python项目
 docker start ros2-humble-cp   # C++项目
 
 # 停止容器
-docker stop ros2-humble-ws
+docker stop ros2-humble
 docker stop ros2-humble-cp
 
 # 进入容器
-docker exec -it ros2-humble-ws bash
+docker exec -it ros2-humble bash
 docker exec -it ros2-humble-cp bash
 ```
 
@@ -203,13 +203,13 @@ docker exec -it ros2-humble-cp bash
 
 ```bash
 # 编译工作空间
-docker exec ros2-humble-ws bash -c "source /opt/ros/humble/setup.bash && cd /root/ros2_ws && colcon build --symlink-install"
+docker exec ros2-humble bash -c "source /opt/ros/humble/setup.bash && cd /root/ros2_ws && colcon build --symlink-install"
 
 # 运行 Talker 节点
-docker exec -it ros2-humble-ws bash -c "source /opt/ros/humble/setup.bash && source /root/ros2_ws/install/setup.bash && ros2 run example_pkg talker"
+docker exec -it ros2-humble bash -c "source /opt/ros/humble/setup.bash && source /root/ros2_ws/install/setup.bash && ros2 run example_pkg talker"
 
 # 运行 Listener 节点
-docker exec -it ros2-humble-ws bash -c "source /opt/ros/humble/setup.bash && source /root/ros2_ws/install/setup.bash && ros2 run example_pkg listener"
+docker exec -it ros2-humble bash -c "source /opt/ros/humble/setup.bash && source /root/ros2_ws/install/setup.bash && ros2 run example_pkg listener"
 ```
 
 **C++项目：**
@@ -229,20 +229,20 @@ docker exec -it ros2-humble-cp bash -c "source /opt/ros/humble/setup.bash && sou
 
 ```bash
 # 启动 RViz2
-docker exec ros2-humble-ws bash -c "source /opt/ros/humble/setup.bash && rviz2"
+docker exec ros2-humble bash -c "source /opt/ros/humble/setup.bash && rviz2"
 
 # 启动 rqt
-docker exec ros2-humble-ws bash -c "source /opt/ros/humble/setup.bash && rqt"
+docker exec ros2-humble bash -c "source /opt/ros/humble/setup.bash && rqt"
 
 # 启动 Gazebo
-docker exec ros2-humble-ws bash -c "source /opt/ros/humble/setup.bash && gazebo"
+docker exec ros2-humble bash -c "source /opt/ros/humble/setup.bash && gazebo"
 ```
 
 ### 5.4 ROS 2 常用命令
 
 ```bash
 # 进入容器
-docker exec -it ros2-humble-ws bash
+docker exec -it ros2-humble bash
 source /opt/ros/humble/setup.bash
 
 # 查看话题列表
@@ -265,12 +265,12 @@ ros2 param list
 
 通过 `Ctrl+Shift+P` → `Tasks: Run Task` 运行：
 
-| 任务名称 | 说明 |
-|---------|------|
-| build-ros2 | 编译 ROS2 工作空间 |
-| run-talker | 运行 Talker 发布者节点 |
+| 任务名称     | 说明                     |
+| ------------ | ------------------------ |
+| build-ros2   | 编译 ROS2 工作空间       |
+| run-talker   | 运行 Talker 发布者节点   |
 | run-listener | 运行 Listener 订阅者节点 |
-| run-rviz2 | 启动 RViz2 可视化工具 |
+| run-rviz2    | 启动 RViz2 可视化工具    |
 
 ## 七、调试配置说明
 
@@ -360,13 +360,13 @@ sudo chown -R $USER:$USER /media/wht/N/ROS/ros2_cp
 
 ```bash
 # 清理编译缓存 (Python)
-docker exec ros2-humble-ws bash -c "cd /root/ros2_ws && rm -rf build install log"
+docker exec ros2-humble bash -c "cd /root/ros2_ws && rm -rf build install log"
 
 # 清理编译缓存 (C++)
 docker exec ros2-humble-cp bash -c "cd /root/ros2_cp && rm -rf build install log"
 
 # 重新编译
-docker exec ros2-humble-ws bash -c "source /opt/ros/humble/setup.bash && cd /root/ros2_ws && colcon build --symlink-install"
+docker exec ros2-humble bash -c "source /opt/ros/humble/setup.bash && cd /root/ros2_ws && colcon build --symlink-install"
 docker exec ros2-humble-cp bash -c "source /opt/ros/humble/setup.bash && cd /root/ros2_cp && colcon build"
 ```
 
@@ -374,11 +374,11 @@ docker exec ros2-humble-cp bash -c "source /opt/ros/humble/setup.bash && cd /roo
 
 ```bash
 # 查看容器日志
-docker logs ros2-humble-ws
+docker logs ros2-humble
 docker logs ros2-humble-cp
 
 # 删除旧容器重新创建
-docker rm -f ros2-humble-ws ros2-humble-cp
+docker rm -f ros2-humble ros2-humble-cp
 # 然后重新执行创建命令或使用脚本启动
 ```
 
@@ -388,7 +388,7 @@ docker rm -f ros2-humble-ws ros2-humble-cp
 
 ```bash
 # Python 包
-docker exec ros2-humble-ws bash -c "source /opt/ros/humble/setup.bash && cd /root/ros2_ws/src && ros2 pkg create --build-type ament_python my_pkg"
+docker exec ros2-humble bash -c "source /opt/ros/humble/setup.bash && cd /root/ros2_ws/src && ros2 pkg create --build-type ament_python my_pkg"
 
 # C++ 包
 docker exec ros2-humble-cp bash -c "source /opt/ros/humble/setup.bash && cd /root/ros2_cp/src && ros2 pkg create --build-type ament_cmake my_pkg --dependencies rclcpp std_msgs"
@@ -398,7 +398,7 @@ docker exec ros2-humble-cp bash -c "source /opt/ros/humble/setup.bash && cd /roo
 
 ```bash
 # 进入容器
-docker exec -it ros2-humble-ws bash
+docker exec -it ros2-humble bash
 
 # 安装 ROS 2 包
 apt update && apt install -y ros-humble-navigation2 ros-humble-nav2-bringup
@@ -413,30 +413,30 @@ pip3 install numpy scipy matplotlib
 
 ### Python项目 (ros2_ws.sh)
 
-| 操作 | 命令 |
-|------|------|
-| 启动容器 | `./ros2_ws.sh start` |
-| 编译项目 | `./ros2_ws.sh build` |
-| 进入容器 | `./ros2_ws.sh shell` |
-| 运行示例 | `./ros2_ws.sh run` |
-| 发布者节点 | `./ros2_ws.sh talker` |
+| 操作       | 命令                    |
+| ---------- | ----------------------- |
+| 启动容器   | `./ros2_ws.sh start`    |
+| 编译项目   | `./ros2_ws.sh build`    |
+| 进入容器   | `./ros2_ws.sh shell`    |
+| 运行示例   | `./ros2_ws.sh run`      |
+| 发布者节点 | `./ros2_ws.sh talker`   |
 | 订阅者节点 | `./ros2_ws.sh listener` |
 
 ### C++项目 (ros2_cp.sh)
 
-| 操作 | 命令 |
-|------|------|
-| 启动容器 | `./ros2_cp.sh start` |
-| 编译项目 | `./ros2_cp.sh build` |
-| 进入容器 | `./ros2_cp.sh shell` |
-| 运行示例 | `./ros2_cp.sh run` |
-| 发布者节点 | `./ros2_cp.sh talker` |
+| 操作       | 命令                    |
+| ---------- | ----------------------- |
+| 启动容器   | `./ros2_cp.sh start`    |
+| 编译项目   | `./ros2_cp.sh build`    |
+| 进入容器   | `./ros2_cp.sh shell`    |
+| 运行示例   | `./ros2_cp.sh run`      |
+| 发布者节点 | `./ros2_cp.sh talker`   |
 | 订阅者节点 | `./ros2_cp.sh listener` |
 
 ### 其他
 
-| 操作 | 命令 |
-|------|------|
-| 启动 RViz2 | VSCode 任务 → `run-rviz2` |
-| VSCode 调试 | 按 `F5` |
-| 多项目开发指南 | 查看 `多项目开发.md` |
+| 操作           | 命令                      |
+| -------------- | ------------------------- |
+| 启动 RViz2     | VSCode 任务 → `run-rviz2` |
+| VSCode 调试    | 按 `F5`                   |
+| 多项目开发指南 | 查看 `多项目开发.md`      |

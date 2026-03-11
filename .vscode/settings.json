@@ -19,5 +19,6 @@
         "AMENT_PREFIX_PATH": "/opt/ros/humble",
         "PYTHONPATH": "/opt/ros/humble/lib/python3.10/site-packages:${env:PYTHONPATH}",
         "LD_LIBRARY_PATH": "/opt/ros/humble/lib:${env:LD_LIBRARY_PATH}"
-    }
+    },
+    "cmake.sourceDirectory": "/media/wht/N/ROS/ros2_cp/src/example_pkg_cp"
 }

@@ -1,23 +1,12 @@
 {
     "name": "ROS 2 C++ (ros2_cp)",
-    "image": "osrf/ros:humble-desktop-full",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "ros2-humble-cp",
+    "workspaceFolder": "/root/ros2_cp",
     "extensions": [
         "ms-vscode.cpptools",
         "ms-vscode.cpptools-extension-pack",
         "ms-iot.vscode-ros"
-    ],
-    "mounts": [
-        "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
-        "source=${localWorkspaceFolder}/ros2_cp,target=/root/ros2_cp,type=bind,consistency=cached"
-    ],
-    "environment": {
-        "DISPLAY": "${localEnv:DISPLAY}",
-        "QT_X11_NO_MITSHM": "1"
-    },
-    "workspaceFolder": "/root/ros2_cp",
-    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
-    "runArgs": [
-        "--privileged"
     ],
     "postStartCommand": "sudo apt update && sudo apt install -y gdb",
     "customizations": {

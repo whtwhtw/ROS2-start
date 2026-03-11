@@ -1,7 +1,7 @@
 #!/bin/bash
 # ROS 2 Humble Docker 管理脚本 - Python版本 (ros2_ws)
 
-CONTAINER_NAME="ros2-humble-ws"
+CONTAINER_NAME="ros2-humble"
 IMAGE_NAME="osrf/ros:humble-desktop-full"
 WORKSPACE="/media/wht/N/ROS/ros2_ws"
 
