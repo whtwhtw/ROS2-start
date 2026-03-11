@@ -1,0 +1,46 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Talker (Python)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/ros2_ws/src/example_pkg/example_pkg/talker.py",
+            "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH": "/opt/ros/humble/lib/python3.10/site-packages:${env:PYTHONPATH}",
+                "AMENT_PREFIX_PATH": "/opt/ros/humble",
+                "ROS_DISTRO": "humble",
+                "LD_LIBRARY_PATH": "/opt/ros/humble/lib:${env:LD_LIBRARY_PATH}"
+            }
+        },
+        {
+            "name": "Debug Listener (Python)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/ros2_ws/src/example_pkg/example_pkg/listener.py",
+            "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH": "/opt/ros/humble/lib/python3.10/site-packages:${env:PYTHONPATH}",
+                "AMENT_PREFIX_PATH": "/opt/ros/humble",
+                "ROS_DISTRO": "humble",
+                "LD_LIBRARY_PATH": "/opt/ros/humble/lib:${env:LD_LIBRARY_PATH}"
+            }
+        },
+        {
+            "name": "Attach to Docker Container",
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 5678
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}",
+                    "remoteRoot": "/root/ros2_ws"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,65 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-ros2",
+            "type": "shell",
+            "command": "docker exec ros2-humble bash -c \"source /opt/ros/humble/setup.bash && cd /root/ros2_ws && colcon build --symlink-install\"",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "编译 ROS2 工作空间"
+        },
+        {
+            "label": "run-talker",
+            "type": "shell",
+            "command": "docker exec -it ros2-humble bash -c \"source /opt/ros/humble/setup.bash && source /root/ros2_ws/install/setup.bash && ros2 run example_pkg talker\"",
+            "problemMatcher": [],
+            "detail": "运行 Talker 发布者节点"
+        },
+        {
+            "label": "run-listener",
+            "type": "shell",
+            "command": "docker exec -it ros2-humble bash -c \"source /opt/ros/humble/setup.bash && source /root/ros2_ws/install/setup.bash && ros2 run example_pkg listener\"",
+            "problemMatcher": [],
+            "detail": "运行 Listener 订阅者节点"
+        },
+        {
+            "label": "run-rviz2",
+            "type": "shell",
+            "command": "xhost +local:docker && docker exec ros2-humble bash -c \"source /opt/ros/humble/setup.bash && rviz2\"",
+            "problemMatcher": [],
+            "detail": "启动 RViz2 可视化工具"
+        },
+        {
+            "label": "run-rqt",
+            "type": "shell",
+            "command": "xhost +local:docker && docker exec ros2-humble bash -c \"source /opt/ros/humble/setup.bash && rqt\"",
+            "problemMatcher": [],
+            "detail": "启动 rqt 图形化工具"
+        },
+        {
+            "label": "run-gazebo",
+            "type": "shell",
+            "command": "xhost +local:docker && docker exec ros2-humble bash -c \"source /opt/ros/humble/setup.bash && gazebo\"",
+            "problemMatcher": [],
+            "detail": "启动 Gazebo 仿真器"
+        },
+        {
+            "label": "start-container",
+            "type": "shell",
+            "command": "${workspaceFolder}/ros2_docker.sh start",
+            "problemMatcher": [],
+            "detail": "启动 Docker 容器"
+        },
+        {
+            "label": "stop-container",
+            "type": "shell",
+            "command": "${workspaceFolder}/ros2_docker.sh stop",
+            "problemMatcher": [],
+            "detail": "停止 Docker 容器"
+        }
+    ]
+}
