@@ -94,7 +94,21 @@ docker run -d \
 └── ros2_humble_setup_guide.md
 ```
 
-## 四、使用方法
+## 四、快速启动 ROS2 环境
+
+### 一键启动并进入 ROS2 环境
+
+**Python项目：**
+```bash
+cd /media/wht/N/ROS && ./ros2_ws.sh start && docker exec -it ros2-humble bash -c "source /opt/ros/humble/setup.bash; exec bash"
+```
+
+**C++项目：**
+```bash
+cd /media/wht/N/ROS && ./ros2_cp.sh start && docker exec -it ros2-humble-cp bash -c "source /opt/ros/humble/setup.bash; exec bash"
+```
+
+## 五、使用方法
 
 ### 方式一：管理脚本（推荐）
 
@@ -118,6 +132,12 @@ cd /media/wht/N/ROS
 
 # 启动订阅者节点（终端2）
 ./ros2_ws.sh listener
+
+# 启动小乌龟仿真
+./ros2_ws.sh turtlesim
+
+# 启动小乌龟键盘控制（需要另开终端）
+./ros2_ws.sh teleop
 
 # 进入容器交互
 ./ros2_ws.sh shell
@@ -176,9 +196,9 @@ cd /media/wht/N/ROS
    - `/root/ros2_cp` - C++版本
 4. 使用 `cd` 命令切换工作目录
 
-## 五、常用命令
+## 六、常用命令
 
-### 5.1 容器管理
+### 6.1 容器管理
 
 ```bash
 # 查看容器状态
@@ -197,7 +217,7 @@ docker exec -it ros2-humble bash
 docker exec -it ros2-humble-cp bash
 ```
 
-### 5.2 编译与运行
+### 6.2 编译与运行
 
 **Python项目：**
 
@@ -225,20 +245,41 @@ docker exec -it ros2-humble-cp bash -c "source /opt/ros/humble/setup.bash && sou
 docker exec -it ros2-humble-cp bash -c "source /opt/ros/humble/setup.bash && source /root/ros2_cp/install/setup.bash && ros2 run example_pkg_cp listener"
 ```
 
-### 5.3 可视化工具
+### 6.3 可视化工具
 
 ```bash
-# 启动 RViz2
+# 启动 RViz2（需先执行 xhost +local:docker）
 docker exec ros2-humble bash -c "source /opt/ros/humble/setup.bash && rviz2"
 
 # 启动 rqt
 docker exec ros2-humble bash -c "source /opt/ros/humble/setup.bash && rqt"
-
-# 启动 Gazebo
-docker exec ros2-humble bash -c "source /opt/ros/humble/setup.bash && gazebo"
 ```
 
-### 5.4 ROS 2 常用命令
+**Gazebo 仿真器**（需先安装，两者可同时安装）：
+
+| 版本 | 包名 | 启动命令 | 说明 |
+| ---- | ---- | -------- | ---- |
+| Gazebo Classic | ros-humble-gazebo-ros-pkgs | `gazebo` | 传统版本，稳定，教程丰富 |
+| Gazebo Ignition | ros-humble-ros-gz | `gz sim` | 新架构，功能更强，未来主流 |
+
+```bash
+# 安装 Gazebo Classic（推荐入门使用）
+docker exec -it ros2-humble bash -c "apt update && apt install -y ros-humble-gazebo-ros-pkgs"
+
+# 安装 Gazebo Ignition（新版，未来主流）
+docker exec -it ros2-humble bash -c "apt update && apt install -y ros-humble-ros-gz"
+
+# 同时安装两个版本（不冲突）
+docker exec -it ros2-humble bash -c "apt update && apt install -y ros-humble-gazebo-ros-pkgs ros-humble-ros-gz"
+
+# 启动 Gazebo Classic
+docker exec ros2-humble bash -c "source /opt/ros/humble/setup.bash && gazebo"
+
+# 启动 Gazebo Ignition
+docker exec ros2-humble bash -c "source /opt/ros/humble/setup.bash && gz sim"
+```
+
+### 6.4 ROS 2 常用命令
 
 ```bash
 # 进入容器
@@ -261,7 +302,7 @@ ros2 service list
 ros2 param list
 ```
 
-## 六、VSCode 任务配置
+## 七、VSCode 任务配置
 
 通过 `Ctrl+Shift+P` → `Tasks: Run Task` 运行：
 
@@ -272,7 +313,7 @@ ros2 param list
 | run-listener | 运行 Listener 订阅者节点 |
 | run-rviz2    | 启动 RViz2 可视化工具    |
 
-## 七、调试配置说明
+## 八、调试配置说明
 
 ### Python 调试配置
 
@@ -317,7 +358,7 @@ ros2 param list
    - `Shift+F11` - 单步跳出
    - `Shift+F5` - 停止调试
 
-## 八、示例节点说明
+## 九、示例节点说明
 
 ### Talker 发布者节点
 
@@ -333,9 +374,9 @@ ros2 param list
 # 收到消息后打印到日志
 ```
 
-## 九、常见问题
+## 十、常见问题
 
-### 9.1 可视化无法显示
+### 10.1 可视化无法显示
 
 ```bash
 # 检查 X11 转发
@@ -348,7 +389,7 @@ xhost +local:docker
 ls -la /tmp/.X11-unix/
 ```
 
-### 9.2 权限问题
+### 10.2 权限问题
 
 ```bash
 # 修改工作空间权限
@@ -356,7 +397,7 @@ sudo chown -R $USER:$USER /media/wht/N/ROS/ros2_ws
 sudo chown -R $USER:$USER /media/wht/N/ROS/ros2_cp
 ```
 
-### 9.3 编译问题
+### 10.3 编译问题
 
 ```bash
 # 清理编译缓存 (Python)
@@ -370,7 +411,7 @@ docker exec ros2-humble bash -c "source /opt/ros/humble/setup.bash && cd /root/r
 docker exec ros2-humble-cp bash -c "source /opt/ros/humble/setup.bash && cd /root/ros2_cp && colcon build"
 ```
 
-### 9.4 容器启动失败
+### 10.4 容器启动失败
 
 ```bash
 # 查看容器日志
@@ -382,7 +423,7 @@ docker rm -f ros2-humble ros2-humble-cp
 # 然后重新执行创建命令或使用脚本启动
 ```
 
-## 十、扩展开发
+## 十一、扩展开发
 
 ### 创建新的 ROS 2 包
 
@@ -413,25 +454,29 @@ pip3 install numpy scipy matplotlib
 
 ### Python项目 (ros2_ws.sh)
 
-| 操作       | 命令                    |
-| ---------- | ----------------------- |
-| 启动容器   | `./ros2_ws.sh start`    |
-| 编译项目   | `./ros2_ws.sh build`    |
-| 进入容器   | `./ros2_ws.sh shell`    |
-| 运行示例   | `./ros2_ws.sh run`      |
-| 发布者节点 | `./ros2_ws.sh talker`   |
-| 订阅者节点 | `./ros2_ws.sh listener` |
+| 操作         | 命令                       |
+| ------------ | -------------------------- |
+| 一键启动环境 | 见上方"快速启动 ROS2 环境" |
+| 启动容器     | `./ros2_ws.sh start`       |
+| 编译项目     | `./ros2_ws.sh build`       |
+| 进入容器     | `./ros2_ws.sh shell`       |
+| 运行示例     | `./ros2_ws.sh run`         |
+| 发布者节点   | `./ros2_ws.sh talker`      |
+| 订阅者节点   | `./ros2_ws.sh listener`    |
+| 小乌龟仿真   | `./ros2_ws.sh turtlesim`   |
+| 键盘控制     | `./ros2_ws.sh teleop`      |
 
 ### C++项目 (ros2_cp.sh)
 
-| 操作       | 命令                    |
-| ---------- | ----------------------- |
-| 启动容器   | `./ros2_cp.sh start`    |
-| 编译项目   | `./ros2_cp.sh build`    |
-| 进入容器   | `./ros2_cp.sh shell`    |
-| 运行示例   | `./ros2_cp.sh run`      |
-| 发布者节点 | `./ros2_cp.sh talker`   |
-| 订阅者节点 | `./ros2_cp.sh listener` |
+| 操作         | 命令                       |
+| ------------ | -------------------------- |
+| 一键启动环境 | 见上方"快速启动 ROS2 环境" |
+| 启动容器     | `./ros2_cp.sh start`       |
+| 编译项目     | `./ros2_cp.sh build`       |
+| 进入容器     | `./ros2_cp.sh shell`       |
+| 运行示例     | `./ros2_cp.sh run`         |
+| 发布者节点   | `./ros2_cp.sh talker`      |
+| 订阅者节点   | `./ros2_cp.sh listener`    |
 
 ### 其他
 

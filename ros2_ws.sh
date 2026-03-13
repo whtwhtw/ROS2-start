@@ -56,6 +56,16 @@ run_example() {
     docker exec -it $CONTAINER_NAME bash -c "source /opt/ros/humble/setup.bash && source /root/ros2_ws/install/setup.bash && ros2 run example_pkg talker"
 }
 
+run_turtlesim() {
+    echo "启动 turtlesim..."
+    docker exec -it $CONTAINER_NAME bash -c "source /opt/ros/humble/setup.bash && ros2 run turtlesim turtlesim_node"
+}
+
+run_teleop() {
+    echo "启动 turtle_teleop_key..."
+    docker exec -it $CONTAINER_NAME bash -c "source /opt/ros/humble/setup.bash && ros2 run turtlesim turtle_teleop_key"
+}
+
 run_talker() {
     echo "启动发布者节点 (Python版本)..."
     docker exec -it $CONTAINER_NAME bash -c "source /opt/ros/humble/setup.bash && source /root/ros2_ws/install/setup.bash && ros2 run example_pkg talker"
@@ -91,18 +101,26 @@ case "$1" in
     listener)
         run_listener
         ;;
+    turtlesim)
+        run_turtlesim
+        ;;
+    teleop)
+        run_teleop
+        ;;
     *)
-        echo "用法: $0 {start|stop|rm|shell|build|run|talker|listener}"
+        echo "用法: $0 {start|stop|rm|shell|build|run|talker|listener|turtlesim|teleop}"
         echo ""
         echo "命令说明:"
-        echo "  start    - 启动容器"
-        echo "  stop     - 停止容器"
-        echo "  rm       - 删除容器"
-        echo "  shell    - 进入容器bash"
-        echo "  build    - 编译工作空间"
-        echo "  run      - 运行示例节点(talker)"
-        echo "  talker   - 启动发布者节点"
-        echo "  listener - 启动订阅者节点"
+        echo "  start     - 启动容器"
+        echo "  stop      - 停止容器"
+        echo "  rm        - 删除容器"
+        echo "  shell     - 进入容器bash"
+        echo "  build     - 编译工作空间"
+        echo "  run       - 运行示例节点(talker)"
+        echo "  talker    - 启动发布者节点"
+        echo "  listener  - 启动订阅者节点"
+        echo "  turtlesim - 启动小乌龟仿真"
+        echo "  teleop    - 启动小乌龟键盘控制"
         exit 1
         ;;
 esac
