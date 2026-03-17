@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   ros2-humble:
     image: osrf/ros:humble-desktop-full
@@ -11,6 +10,7 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ..:/workspace
       - ../ros2_ws:/root/ros2_ws
+      - ~/.ssh:/root/.ssh:ro
     working_dir: /root/ros2_ws
     command: tail -f /dev/null
 
@@ -25,5 +25,21 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ..:/workspace
       - ../ros2_cp:/root/ros2_cp
+      - ~/.ssh:/root/.ssh:ro
     working_dir: /root/ros2_cp
+    command: tail -f /dev/null
+
+  ros2-humble-msg:
+    image: osrf/ros:humble-desktop-full
+    container_name: ros2-humble-msg
+    privileged: true
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ..:/workspace
+      - ../ros2_self_msg_srv:/root/ros2_self_msg_srv
+      - ~/.ssh:/root/.ssh:ro
+    working_dir: /root/ros2_self_msg_srv
     command: tail -f /dev/null

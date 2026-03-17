@@ -3,19 +3,22 @@
     "dockerComposeFile": "../docker-compose.yml",
     "service": "ros2-humble",
     "workspaceFolder": "/root/ros2_ws",
-    "extensions": [
-        "ms-python.python",
-        "ms-python.debugpy",
-        "ms-iot.vscode-ros"
-    ],
-    "postStartCommand": "sudo apt update && sudo apt install -y python3-pip gdb",
+    "postStartCommand": "sudo apt update && sudo apt install -y gdb",
     "customizations": {
         "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.debugpy",
+                "ms-python.vscode-pylance",
+                "ms-iot.vscode-ros"
+            ],
             "settings": {
+                "python.defaultInterpreterPath": "/usr/bin/python3",
                 "python.analysis.extraPaths": [
                     "/opt/ros/humble/lib/python3.10/site-packages"
                 ]
             }
         }
-    }
+    },
+    "remoteUser": "root"
 }

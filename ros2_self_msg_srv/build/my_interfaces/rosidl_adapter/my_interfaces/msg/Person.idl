@@ -1,0 +1,24 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from my_interfaces/msg/Person.msg
+// generated code does not contain a copyright notice
+
+
+module my_interfaces {
+  module msg {
+    @verbatim (language="comment", text=
+      "自定义消息：人员信息")
+    struct Person {
+      @verbatim (language="comment", text=
+        "姓名")
+      string name;
+
+      @verbatim (language="comment", text=
+        "年龄")
+      int32 age;
+
+      @verbatim (language="comment", text=
+        "身高(m)")
+      double height;
+    };
+  };
+};

@@ -1,0 +1,1 @@
+/root/ros2_self_msg_srv/build/my_interfaces_cpp/ament_cmake_environment_hooks/local_setup.sh

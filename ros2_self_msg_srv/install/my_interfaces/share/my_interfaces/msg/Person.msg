@@ -1,0 +1,1 @@
+/root/ros2_self_msg_srv/src/my_interfaces/msg/Person.msg

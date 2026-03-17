@@ -20,7 +20,7 @@ public:
         {
             if (!rclcpp::ok())
             {
-                RCLCPP_ERROR(this->get_logger(), "等
+                RCLCPP_ERROR(this->get_logger(), "等待服务时被中断");
                 return;
             }
             RCLCPP_INFO(this->get_logger(), "等待服务端启动...");
@@ -38,7 +38,7 @@ public:
         request->b = b;
 
         // 异步发送请求（不使用回调）
-        return client_->async_send_request(request);
+        return client_->async_send_request(request).future.share();
     }
 
 private:

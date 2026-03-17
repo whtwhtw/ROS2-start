@@ -1,49 +1,36 @@
 #!/bin/bash
 # ROS 2 Humble Docker 管理脚本 - Python版本 (ros2_ws)
 
+COMPOSE_FILE="/media/wht/N/ROS/.devcontainer/docker-compose.yml"
+SERVICE_NAME="ros2-humble"
 CONTAINER_NAME="ros2-humble"
-IMAGE_NAME="osrf/ros:humble-desktop-full"
-WORKSPACE="/media/wht/N/ROS/ros2_ws"
 
 start_container() {
-    if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
-        if [ "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
-            echo "容器 $CONTAINER_NAME 已在运行"
-        else
-            echo "启动容器 $CONTAINER_NAME..."
-            docker start $CONTAINER_NAME
-            xhost +local:docker
-        fi
+    xhost +local:docker
+    if docker inspect --format '{{.State.Running}}' $CONTAINER_NAME 2>/dev/null | grep -q "true"; then
+        echo "容器 $CONTAINER_NAME 已在运行"
+    elif docker inspect $CONTAINER_NAME &>/dev/null; then
+        echo "启动容器 $CONTAINER_NAME..."
+        docker start $CONTAINER_NAME
     else
         echo "创建并启动容器 $CONTAINER_NAME..."
-        xhost +local:docker
-        docker run -d \
-            --name $CONTAINER_NAME \
-            --privileged \
-            -e DISPLAY=$DISPLAY \
-            -e QT_X11_NO_MITSHM=1 \
-            -v /tmp/.X11-unix:/tmp/.X11-unix \
-            -v $WORKSPACE:/root/ros2_ws \
-            -v ~/.ssh:/root/.ssh:ro \
-            -w /root/ros2_ws \
-            $IMAGE_NAME \
-            tail -f /dev/null
+        docker compose -f $COMPOSE_FILE up -d $SERVICE_NAME
     fi
 }
 
 stop_container() {
     echo "停止容器 $CONTAINER_NAME..."
-    docker stop $CONTAINER_NAME 2>/dev/null
+    docker compose -f $COMPOSE_FILE stop $SERVICE_NAME
 }
 
 remove_container() {
     echo "删除容器 $CONTAINER_NAME..."
-    docker rm -f $CONTAINER_NAME 2>/dev/null
+    docker compose -f $COMPOSE_FILE down --remove-orphans
 }
 
 shell() {
     echo "进入容器 $CONTAINER_NAME 的bash..."
-    docker exec -it $CONTAINER_NAME bash  -c "source /opt/ros/humble/setup.bash && bash"
+    docker exec -it $CONTAINER_NAME bash -c "source /opt/ros/humble/setup.bash && bash"
 }
 
 build() {

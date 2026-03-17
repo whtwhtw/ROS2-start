@@ -1,49 +1,36 @@
 #!/bin/bash
 # ROS 2 Humble Docker 管理脚本 - C++版本 (ros2_cp)
 
+COMPOSE_FILE="/media/wht/N/ROS/.devcontainer/docker-compose.yml"
+SERVICE_NAME="ros2-humble-cp"
 CONTAINER_NAME="ros2-humble-cp"
-IMAGE_NAME="osrf/ros:humble-desktop-full"
-WORKSPACE="/media/wht/N/ROS/ros2_cp"
 
 start_container() {
-    if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
-        if [ "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
-            echo "容器 $CONTAINER_NAME 已在运行"
-        else
-            echo "启动容器 $CONTAINER_NAME..."
-            docker start $CONTAINER_NAME
-            xhost +local:docker
-        fi
+    xhost +local:docker
+    if docker inspect --format '{{.State.Running}}' $CONTAINER_NAME 2>/dev/null | grep -q "true"; then
+        echo "容器 $CONTAINER_NAME 已在运行"
+    elif docker inspect $CONTAINER_NAME &>/dev/null; then
+        echo "启动容器 $CONTAINER_NAME..."
+        docker start $CONTAINER_NAME
     else
         echo "创建并启动容器 $CONTAINER_NAME..."
-        xhost +local:docker
-        docker run -d \
-            --name $CONTAINER_NAME \
-            --privileged \
-            -e DISPLAY=$DISPLAY \
-            -e QT_X11_NO_MITSHM=1 \
-            -v /tmp/.X11-unix:/tmp/.X11-unix \
-            -v $WORKSPACE:/root/ros2_cp \
-            -v ~/.ssh:/root/.ssh:ro \
-            -w /root/ros2_cp \
-            $IMAGE_NAME \
-            tail -f /dev/null
+        docker compose -f $COMPOSE_FILE up -d $SERVICE_NAME
     fi
 }
 
 stop_container() {
     echo "停止容器 $CONTAINER_NAME..."
-    docker stop $CONTAINER_NAME 2>/dev/null
+    docker compose -f $COMPOSE_FILE stop $SERVICE_NAME
 }
 
 remove_container() {
     echo "删除容器 $CONTAINER_NAME..."
-    docker rm -f $CONTAINER_NAME 2>/dev/null
+    docker compose -f $COMPOSE_FILE down --remove-orphans
 }
 
 shell() {
     echo "进入容器 $CONTAINER_NAME 的bash..."
-    docker exec -it $CONTAINER_NAME bash
+    docker exec -it $CONTAINER_NAME bash -c "source /opt/ros/humble/setup.bash && bash"
 }
 
 build() {
@@ -77,6 +64,16 @@ run_service_client() {
     docker exec -it $CONTAINER_NAME bash -c "source /opt/ros/humble/setup.bash && source /root/ros2_cp/install/setup.bash && ros2 run service_pkg_cp service_client $args"
 }
 
+run_turtlesim() {
+    echo "启动 turtlesim..."
+    docker exec -it $CONTAINER_NAME bash -c "source /opt/ros/humble/setup.bash && ros2 run turtlesim turtlesim_node"
+}
+
+run_teleop() {
+    echo "启动 turtle_teleop_key..."
+    docker exec -it $CONTAINER_NAME bash -c "source /opt/ros/humble/setup.bash && ros2 run turtlesim turtle_teleop_key"
+}
+
 case "$1" in
     start)
         start_container
@@ -108,8 +105,14 @@ case "$1" in
     service_client)
         run_service_client "$@"
         ;;
+    turtlesim)
+        run_turtlesim
+        ;;
+    teleop)
+        run_teleop
+        ;;
     *)
-        echo "用法: $0 {start|stop|rm|shell|build|run|talker|listener|service_server|service_client}"
+        echo "用法: $0 {start|stop|rm|shell|build|run|talker|listener|service_server|service_client|turtlesim|teleop}"
         echo ""
         echo "命令说明:"
         echo "  start          - 启动容器"
@@ -122,6 +125,8 @@ case "$1" in
         echo "  listener       - 启动订阅者节点"
         echo "  service_server - 启动服务端节点"
         echo "  service_client - 启动客户端节点 (可带两个数字参数，如: ./ros2_cp.sh service_client 3 5)"
+        echo "  turtlesim      - 启动小乌龟仿真"
+        echo "  teleop         - 启动小乌龟键盘控制"
         exit 1
         ;;
 esac

@@ -1,0 +1,29 @@
+{
+    "name": "ROS 2 Self Msg/Srv",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "ros2-humble-msg",
+    "workspaceFolder": "/root/ros2_self_msg_srv",
+    "postStartCommand": "sudo apt update && sudo apt install -y gdb",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.debugpy",
+                "ms-python.vscode-pylance",
+                "ms-vscode.cpptools",
+                "ms-vscode.cpptools-extension-pack",
+                "ms-vscode.cmake-tools",
+                "ms-iot.vscode-ros"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/bin/python3",
+                "C_Cpp.intelliSenseEngine": "default",
+                "C_Cpp.errorSquiggles": "enabled",
+                "python.analysis.extraPaths": [
+                    "/opt/ros/humble/lib/python3.10/site-packages"
+                ]
+            }
+        }
+    },
+    "remoteUser": "root"
+}

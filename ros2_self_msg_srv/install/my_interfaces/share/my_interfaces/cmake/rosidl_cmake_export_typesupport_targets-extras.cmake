@@ -1,0 +1,1 @@
+/root/ros2_self_msg_srv/build/my_interfaces/rosidl_cmake/rosidl_cmake_export_typesupport_targets-extras.cmake

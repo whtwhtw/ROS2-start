@@ -1,0 +1,7 @@
+{
+  "package_name": "my_interfaces",
+  "non_idl_tuples": [
+    "/root/ros2_self_msg_srv/src/my_interfaces:msg/Person.msg",
+    "/root/ros2_self_msg_srv/src/my_interfaces:srv/AddThreeInts.srv"
+  ]
+}

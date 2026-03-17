@@ -1,0 +1,106 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-8ffc3f81b2e0e7e27b68.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "my_interfaces_cpp",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "my_interfaces_cpp_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-my_interfaces_cpp_uninstall-127033385686e5f81418.json",
+					"name" : "my_interfaces_cpp_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "publisher_person::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-publisher_person-35649b9acbdc915c4e0b.json",
+					"name" : "publisher_person",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "service_client::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-service_client-897834d45c0ad349ff0b.json",
+					"name" : "service_client",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "service_server::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-service_server-758a814f68151265583b.json",
+					"name" : "service_server",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "subscriber_person::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-subscriber_person-95bbfb5fb606a70923ac.json",
+					"name" : "subscriber_person",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-52dc97caba78f3d43bbe.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/root/ros2_self_msg_srv/build/my_interfaces_cpp",
+		"source" : "/root/ros2_self_msg_srv/src/my_interfaces_cpp"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

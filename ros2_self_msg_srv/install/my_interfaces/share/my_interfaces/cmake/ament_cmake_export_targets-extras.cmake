@@ -1,0 +1,1 @@
+/root/ros2_self_msg_srv/build/my_interfaces/ament_cmake_export_targets/ament_cmake_export_targets-extras.cmake
