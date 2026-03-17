@@ -1,0 +1,17 @@
+/root/ros2_cp/install/service_pkg_cp/lib/service_pkg_cp/service_server
+/root/ros2_cp/install/service_pkg_cp/lib/service_pkg_cp/service_client
+/root/ros2_cp/install/service_pkg_cp/share/ament_index/resource_index/package_run_dependencies/service_pkg_cp
+/root/ros2_cp/install/service_pkg_cp/share/ament_index/resource_index/parent_prefix_path/service_pkg_cp
+/root/ros2_cp/install/service_pkg_cp/share/service_pkg_cp/environment/ament_prefix_path.sh
+/root/ros2_cp/install/service_pkg_cp/share/service_pkg_cp/environment/ament_prefix_path.dsv
+/root/ros2_cp/install/service_pkg_cp/share/service_pkg_cp/environment/path.sh
+/root/ros2_cp/install/service_pkg_cp/share/service_pkg_cp/environment/path.dsv
+/root/ros2_cp/install/service_pkg_cp/share/service_pkg_cp/local_setup.bash
+/root/ros2_cp/install/service_pkg_cp/share/service_pkg_cp/local_setup.sh
+/root/ros2_cp/install/service_pkg_cp/share/service_pkg_cp/local_setup.zsh
+/root/ros2_cp/install/service_pkg_cp/share/service_pkg_cp/local_setup.dsv
+/root/ros2_cp/install/service_pkg_cp/share/service_pkg_cp/package.dsv
+/root/ros2_cp/install/service_pkg_cp/share/ament_index/resource_index/packages/service_pkg_cp
+/root/ros2_cp/install/service_pkg_cp/share/service_pkg_cp/cmake/service_pkg_cpConfig.cmake
+/root/ros2_cp/install/service_pkg_cp/share/service_pkg_cp/cmake/service_pkg_cpConfig-version.cmake
+/root/ros2_cp/install/service_pkg_cp/share/service_pkg_cp/package.xml

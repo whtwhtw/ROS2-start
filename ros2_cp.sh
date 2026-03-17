@@ -66,6 +66,17 @@ run_listener() {
     docker exec -it $CONTAINER_NAME bash -c "source /opt/ros/humble/setup.bash && source /root/ros2_cp/install/setup.bash && ros2 run example_pkg_cp listener"
 }
 
+run_service_server() {
+    echo "启动服务端节点 (C++版本)..."
+    docker exec -it $CONTAINER_NAME bash -c "source /opt/ros/humble/setup.bash && source /root/ros2_cp/install/setup.bash && ros2 run service_pkg_cp service_server"
+}
+
+run_service_client() {
+    echo "启动客户端节点 (C++版本)..."
+    local args="${@:2}"
+    docker exec -it $CONTAINER_NAME bash -c "source /opt/ros/humble/setup.bash && source /root/ros2_cp/install/setup.bash && ros2 run service_pkg_cp service_client $args"
+}
+
 case "$1" in
     start)
         start_container
@@ -91,18 +102,26 @@ case "$1" in
     listener)
         run_listener
         ;;
+    service_server)
+        run_service_server "$@"
+        ;;
+    service_client)
+        run_service_client "$@"
+        ;;
     *)
-        echo "用法: $0 {start|stop|rm|shell|build|run|talker|listener}"
+        echo "用法: $0 {start|stop|rm|shell|build|run|talker|listener|service_server|service_client}"
         echo ""
         echo "命令说明:"
-        echo "  start    - 启动容器"
-        echo "  stop     - 停止容器"
-        echo "  rm       - 删除容器"
-        echo "  shell    - 进入容器bash"
-        echo "  build    - 编译工作空间"
-        echo "  run      - 运行示例节点(talker)"
-        echo "  talker   - 启动发布者节点"
-        echo "  listener - 启动订阅者节点"
+        echo "  start          - 启动容器"
+        echo "  stop           - 停止容器"
+        echo "  rm             - 删除容器"
+        echo "  shell          - 进入容器bash"
+        echo "  build          - 编译工作空间"
+        echo "  run            - 运行示例节点(talker)"
+        echo "  talker         - 启动发布者节点"
+        echo "  listener       - 启动订阅者节点"
+        echo "  service_server - 启动服务端节点"
+        echo "  service_client - 启动客户端节点 (可带两个数字参数，如: ./ros2_cp.sh service_client 3 5)"
         exit 1
         ;;
 esac
